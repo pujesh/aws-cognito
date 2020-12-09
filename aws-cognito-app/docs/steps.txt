@@ -1,0 +1,7 @@
+aws-cognito
+-----------
+First move to the location where you want to create and store your react application 
+then write - npx create-react-app aws-cognito-app and press enter
+
+Fig: npx create-react-app start.png 
+

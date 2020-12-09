@@ -1,7 +1,98 @@
 aws-cognito
 -----------
 First move to the location where you want to create and store your react application 
-then write - npx create-react-app aws-cognito-app and press enter
+> npx create-react-app aws-cognito-app and press enter
 
 Fig: npx create-react-app start.png 
 
+Once the app is created we can host the application in our localhost  
+> npm start. 
+
+I have updated the App.js file to print <p>You have logged in!!!</p> as shown in the figure
+
+Fig: App.js initial message. 
+
+When we log into localhost:3000 we can directly see that the browser prints "You have logged in!!!" We want to add a login page before the user sees this message in the browser. For this we need to first configure Amplify CLI. 
+Its a simple process and can be easily configured by following the following steps: 
+https://docs.amplify.aws/start/getting-started/installation/q/integration/react 
+
+You need to create an account in the Amazon AWS. Once the account is created you can configure amplify. 
+*** Why is amplify configure needed? 
+> amplify configure 
+
+You need to create a user with Administrator IAM role. And provide the region, access key and secret access key to continue setting up the amplify. 
+
+FIG: amplify configure .. 
+
+
+Now, once the amplify is configured, let us initialize Amplify so taht we can create necessary backend services. 
+
+> amplify init 
+
+This will ask few inputs for setting up the configuration. We can proceed with default values until there are any changes that you want to make. 
+This will ask to choose an AWS amplify. Choose the one that you created a while ago.
+
+Fig: amplify init  
+
+Once this gets completed we can see a new folder called amplify in the root directory and aws-exports.js file inside the src directory. 
+This is created automatically during the setup of amplify.
+
+***What does aws-exports.js file contain???  
+
+Then we need to install necessary dependencies. The aws-amplify is the main library for working with Amplify in your apps. 
+> npm install aws-amplify @aws-amplify/ui-react 
+
+This package includes React specific UI Components.
+
+NOTE: If you are already hosting your app in localhost:3000 you might get a 'Module not found' error. If you face this issue, terminate the hosting and restart it again .
+
+Once the installation is completed, let us configure amplify on the client so that we can use it to interact with our backend services. 
+Lets open the App.js file under the src directory. and copy the following code below the last import: 
+
+	import Amplify from "aws-amplify";
+	import awsExports from "./aws-exports";
+	Amplify.configure(awsExports);
+
+
+we can start to build our authentication page.
+Here we will be using the Authentication provided by the Amazon Amplify. 
+This amplify framework uses Amazon Cognito as the main authentication provider. It handles the user registration, authentication, account recovery and other operations. 
+To add the authentication follow the following steps: 
+
+> amplify add auth 
+
+Select the options provided for each configuration or can proceed with default value. Few of the settings can be changed later while others will need to be configured from the scratch. 
+Here i will proceed with the default configuration for now. 
+Once it set up we need to deploy it.we can deploy the service by 
+> amplify push 
+
+Once we push the service it generates a Resource name. The details of this configuration will be updated automatically in aws-exports.js file. 
+We can check this user pool that has been created in the Amplify Console. To view the user pool in the console. Login to your Amazon AWS console. At the top click Services > Cognito > Manage User Pools 
+Here you can see a user pool that has been created with your resource name 
+
+Now after all the configuration, it is time to create the login UI for our application. AWS Cognito has an authentication UI component which provides us with entire authentication flow. To use this built-in component from the AWS Cognito in our react app, we need to add the folloing codes in our App.js file.
+
+First, lets import the withAuthenticator component from '@aws-amplify/ui-react'
+> import { withAuthenticator } from '@aws-amplify/ui-react';
+
+Then let us wrap our main component with the exported component - withAuthenticator
+> export default withAuthenticator(App) 
+
+withAuthenticator is a HOC (higher order component) provided by the AWS Cognito. 
+
+When you load your application you can see something like this - 
+Fig: Authentication UI Component
+
+Here we can see a UI component that has all the required authentication functionality such as SignIn, SignUp, Forget Password. Now we are ready to sign up a user for us. You can try creating users and logging in with it. This template is based on the Amazon AWS theme. We will shortly look into it to change its appearances. 
+When you sign up with a user you can check the console to see if the user is really created! Also you can create a user group and assign users to the groups too. 
+
+Once you create a user and try to log into it, you will then see the "You have logged in!!!" message in the application. 
+
+To make it possible to sign out we are just going to add a <AmplifySignOut/> component to our App component.
+The code so far will look something like below: 
+
+Fig: App.js component 
+
+After you add this code will see that there is a SIGN OUT button added to your application. 
+
+Fig: SignOut Button

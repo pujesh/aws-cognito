@@ -7,4 +7,4 @@ Screenshot:
 
 ![Authentication UI Component](https://user-images.githubusercontent.com/51056468/101773648-2f5e6700-3b15-11eb-8324-4e1243dac4f1.PNG)
 
-To get more information on the step by step process check my blog here: https://pujesh.medium.com/authenticate-with-aws-cognito-it-is-that-simple-with-the-aws-framework-50addb5b2f84
+To get more information on the step by step process check my blog here: https://coconutshark.medium.com/authenticate-with-aws-cognito-it-is-that-simple-with-the-aws-framework-50addb5b2f84
